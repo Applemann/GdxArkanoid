@@ -30,48 +30,72 @@ class Ball(texture: Texture) : Sprite(texture) {
         this.setPosition(x, y)
     }
 
-    fun update (batch: Batch) {
-        this.draw(batch)
-
-        val delta = Gdx.graphics.getDeltaTime()
-        x += motionx * (Math.cos(this.direction * (Math.PI/180)) * this.speed * delta ).toFloat()
-        y += motiony * (Math.sin(this.direction * (Math.PI/180)) * this.speed * delta ).toFloat()
-
-
+    fun computeWallCollision () {
         // Right collision
         if (this.x + this.width > screenWidth && direction > 0 ) {
             direction += 90
         }
-
-        if (this.x + this.width > screenWidth && direction < 0 ) {
+        else
+        if (this.x + this.width > screenWidth && direction < 360 ) {
             direction -= 90
         }
+        else
 
         // Top collision
         if (this.y + this.height > screenHeight && direction > 90 ) {
             direction += 90
         }
+        else
         if (this.y + this.height > screenHeight && direction < 90 ) {
             direction -= 90
         }
+        else
 
         // Left collision
         if (this.x < 0 && direction > 180 ) {
             direction += 90
         }
+        else
         if (this.x < 0 && direction < 180 ) {
             direction -= 90
         }
+        else
 
         // Bottom collision
         if (this.y < 0 && direction > 270 ) {
             direction += 90
         }
+        else
         if (this.y < 0 && direction < 270 ) {
             direction -= 90
         }
+    }
 
-        //collide = move_and_collide(motion)
+    fun computeCollisionWith (sprite: Sprite) {
+        if (this.y < sprite.y + sprite.height && this.x > sprite.x && this.x < sprite.x + sprite.width && direction > 270 ) {
+            direction += 90
+        }
+        else
+        if (this.y < sprite.y + sprite.height && this.x > sprite.x && this.x < sprite.x + sprite.width && direction < 270 ) {
+            direction -= 90
+        }
+    }
+
+    fun update (batch: Batch) {
+        this.draw(batch)
+
+        if (direction < 0) {
+            direction += 360
+        }
+        else if (direction > 360) {
+            direction -= 360
+        }
+
+        val delta = Gdx.graphics.getDeltaTime()
+        x += motionx * (Math.cos(this.direction * (Math.PI/180)) * this.speed * delta ).toFloat()
+        y += motiony * (Math.sin(this.direction * (Math.PI/180)) * this.speed * delta ).toFloat()
+
+        computeWallCollision()
 
     }
 }
@@ -124,11 +148,12 @@ class GdxArkanoid : ApplicationAdapter() {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.5f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         batch.begin()
-
         pad.update(batch)
         ball.update(batch)
+        ball.computeCollisionWith(pad)
 
         batch.end()
+
     }
 
     override fun dispose() {
