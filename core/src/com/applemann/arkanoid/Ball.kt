@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Rectangle
+import jdk.nashorn.internal.runtime.linker.Bootstrap
 
 
 class Rect(sprite: Sprite) : Rectangle() {
@@ -74,7 +75,7 @@ class Ball(texture: Texture) : Sprite(texture) {
         }
     }
 
-    fun computeCollisionWith(sprite: Sprite) {
+    fun computeCollisionWith(sprite: Sprite) : Boolean {
         val ballRect = Rect(this)
         val spriteRect = Rect(sprite)
 
@@ -83,25 +84,39 @@ class Ball(texture: Texture) : Sprite(texture) {
         if (ballRect.bottomSide < spriteRect.topSide &&
             ballRect.topSide > spriteRect.topSide &&
             ballRect.leftSide > spriteRect.leftSide &&
-            ballRect.leftSide < spriteRect.rightSide && direction > 270 ) direction += 90
+            ballRect.leftSide < spriteRect.rightSide && direction > 270 ) { direction += 90; return true }
         else
         if (ballRect.bottomSide < spriteRect.topSide &&
             ballRect.topSide > spriteRect.topSide &&
             ballRect.leftSide > spriteRect.leftSide &&
-            ballRect.leftSide < spriteRect.rightSide && direction < 270 ) direction -= 90
+            ballRect.leftSide < spriteRect.rightSide && direction < 270 ) { direction -= 90; return true }
 
         else
         // Top collision
         if (ballRect.topSide > spriteRect.bottomSide &&
             ballRect.bottomSide < spriteRect.bottomSide &&
             ballRect.leftSide > spriteRect.leftSide &&
-            ballRect.leftSide < spriteRect.rightSide && direction > 270 ) direction += 90
+            ballRect.leftSide < spriteRect.rightSide && direction > 270 ) { direction += 90; return true }
         else
         if (ballRect.topSide > spriteRect.bottomSide &&
             ballRect.bottomSide < spriteRect.bottomSide &&
             ballRect.leftSide > spriteRect.leftSide &&
-            ballRect.leftSide < spriteRect.rightSide && direction < 270 ) direction -= 90
+            ballRect.leftSide < spriteRect.rightSide && direction < 270 ) { direction -= 90; return true }
 
+        else
+            return false
+
+        //else
+        //// Left collision
+        //    if (ballRect.topSide > spriteRect.bottomSide &&
+        //        ballRect.bottomSide < spriteRect.bottomSide &&
+        //        ballRect.leftSide > spriteRect.leftSide &&
+        //        ballRect.leftSide < spriteRect.rightSide && direction > 270 ) direction += 90
+        //    else
+        //    if (ballRect.topSide > spriteRect.bottomSide &&
+        //        ballRect.bottomSide < spriteRect.bottomSide &&
+        //        ballRect.leftSide > spriteRect.leftSide &&
+        //        ballRect.leftSide < spriteRect.rightSide && direction < 270 ) direction -= 90
 
 
     }
