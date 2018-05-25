@@ -15,7 +15,7 @@ class Ball(texture: Texture) : Sprite(texture) {
         this.setPosition(x, y)
     }
 
-    fun computeWallCollision () {
+    fun computeWallCollision() {
         // Right collision
         if (this.x + this.width > screenWidth && direction > 0 ) {
             direction += 90
@@ -56,7 +56,7 @@ class Ball(texture: Texture) : Sprite(texture) {
         }
     }
 
-    fun computeCollisionWith (sprite: Sprite) {
+    fun computeCollisionWith(sprite: Sprite) {
         if (this.y < sprite.y + sprite.height && this.x > sprite.x && this.x < sprite.x + sprite.width && direction > 270 ) {
             direction += 90
         }
@@ -66,7 +66,7 @@ class Ball(texture: Texture) : Sprite(texture) {
         }
     }
 
-    fun update (batch: Batch) {
+    fun update(batch: Batch) {
         this.draw(batch)
 
         if (direction < 0) {
