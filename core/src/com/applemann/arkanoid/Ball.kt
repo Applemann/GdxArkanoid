@@ -4,6 +4,24 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
+import com.badlogic.gdx.math.Rectangle
+
+
+class Rect(sprite: Sprite) : Rectangle() {
+    init {
+        this.x = sprite.x
+        this.y = sprite.y
+        this.width = sprite.width
+        this.height = sprite.height
+    }
+    val topSide: Float get() = this.y + this.height
+    val bottomSide: Float get() = this.y
+    val rightSide: Float get() = this.x + this.width
+    val leftSide: Float get() = this.x
+
+
+}
+
 
 class Ball(texture: Texture) : Sprite(texture) {
     var speed: Int = 250
@@ -57,13 +75,35 @@ class Ball(texture: Texture) : Sprite(texture) {
     }
 
     fun computeCollisionWith(sprite: Sprite) {
-        if (this.y < sprite.y + sprite.height && this.x > sprite.x && this.x < sprite.x + sprite.width && direction > 270 ) {
-            direction += 90
-        }
+        val ballRect = Rect(this)
+        val spriteRect = Rect(sprite)
+
+
+        // Bottom collision
+        if (ballRect.bottomSide < spriteRect.topSide &&
+            ballRect.topSide > spriteRect.topSide &&
+            ballRect.leftSide > spriteRect.leftSide &&
+            ballRect.leftSide < spriteRect.rightSide && direction > 270 ) direction += 90
         else
-        if (this.y < sprite.y + sprite.height && this.x > sprite.x && this.x < sprite.x + sprite.width && direction < 270 ) {
-            direction -= 90
-        }
+        if (ballRect.bottomSide < spriteRect.topSide &&
+            ballRect.topSide > spriteRect.topSide &&
+            ballRect.leftSide > spriteRect.leftSide &&
+            ballRect.leftSide < spriteRect.rightSide && direction < 270 ) direction -= 90
+
+        else
+        // Top collision
+        if (ballRect.topSide > spriteRect.bottomSide &&
+            ballRect.bottomSide < spriteRect.bottomSide &&
+            ballRect.leftSide > spriteRect.leftSide &&
+            ballRect.leftSide < spriteRect.rightSide && direction > 270 ) direction += 90
+        else
+        if (ballRect.topSide > spriteRect.bottomSide &&
+            ballRect.bottomSide < spriteRect.bottomSide &&
+            ballRect.leftSide > spriteRect.leftSide &&
+            ballRect.leftSide < spriteRect.rightSide && direction < 270 ) direction -= 90
+
+
+
     }
 
     fun update(batch: Batch) {

@@ -21,6 +21,11 @@ enum class ImagePath (val value: String) {
 class BrickGroup(x: Float, y: Float) {
 
     private val _bricks = mutableListOf<Sprite>()
+    private val _space = 3
+
+    fun getBricks() : List<Sprite> {
+        return _bricks.toList()
+    }
 
     init {
         //loadBricks(140f, 480f)
@@ -28,12 +33,11 @@ class BrickGroup(x: Float, y: Float) {
     }
 
     fun loadBricks(pos_x: Float, pos_y: Float) {
-        val space = 3
         val brickTexture = Texture(ImagePath.BRICK.value)
 
         for (i in 0..9) {
             val brick = Sprite(brickTexture)
-            brick.setPosition(pos_x + (brick.width + space) * i , pos_y )
+            brick.setPosition(pos_x + (brick.width + _space) * i , pos_y )
             _bricks.add(brick)
         }
     }
@@ -50,7 +54,6 @@ class GdxArkanoid : ApplicationAdapter() {
     lateinit var ball : Ball
     lateinit var pad : Pad
     lateinit var bricks : BrickGroup
-
 
 
     override fun create() {
@@ -73,6 +76,9 @@ class GdxArkanoid : ApplicationAdapter() {
         pad.update(batch)
         ball.update(batch)
         ball.computeCollisionWith(pad)
+
+        for (brick in bricks.getBricks())
+            ball.computeCollisionWith(brick)
 
         bricks.update(batch)
 
