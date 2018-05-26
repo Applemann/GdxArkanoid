@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.Batch
 
@@ -16,42 +15,6 @@ enum class ImagePath (val value: String) {
     BALL("core/assets/ball.png"),
     PAD("core/assets/pad.png"),
     BRICK("core/assets/brick.png"),
-}
-
-class BrickGroup(x: Float, y: Float) {
-
-    private val _bricks = mutableListOf<Sprite>()
-    private val _space = 3
-
-    fun getBricks() : List<Sprite> {
-        return _bricks.toList()
-    }
-
-    init {
-        loadBricks(x, y)
-    }
-
-    fun loadBricks(pos_x: Float, pos_y: Float) {
-        val brickTexture = Texture(ImagePath.BRICK.value)
-
-        for (i in 0..9) {
-            for (j in 0..5) {
-                val brick = Sprite(brickTexture)
-                brick.setPosition(pos_x + (brick.width + _space) * i, pos_y - (brick.height + _space) * j)
-                _bricks.add(brick)
-            }
-        }
-    }
-
-    fun remove (index: Int) {
-        _bricks.removeAt(index)
-    }
-
-    fun update (batch: Batch) {
-        for (brick in _bricks) {
-            brick.draw(batch)
-        }
-    }
 }
 
 class GdxArkanoid : ApplicationAdapter() {
