@@ -9,12 +9,12 @@ class BrickGroup(x: Float, y: Float) {
     private val _bricks = mutableListOf<Sprite>()
     private val _space = 3
 
-    fun getBricks() : List<Sprite> {
-        return _bricks.toList()
-    }
-
     init {
         loadBricks(x, y)
+    }
+
+    fun getBricks() : List<Sprite> {
+        return _bricks.toList()
     }
 
     fun loadBricks(pos_x: Float, pos_y: Float) {

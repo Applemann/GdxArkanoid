@@ -52,15 +52,12 @@ class GdxArkanoid : ApplicationAdapter() {
             }
         }
 
-
         brickGroup.update(batch)
 
         batch.end()
-
     }
 
     override fun dispose() {
         batch.dispose()
-
     }
 }

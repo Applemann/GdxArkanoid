@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Rectangle
-import jdk.nashorn.internal.runtime.linker.Bootstrap
 
 
 class Rect(sprite: Sprite) : Rectangle() {
